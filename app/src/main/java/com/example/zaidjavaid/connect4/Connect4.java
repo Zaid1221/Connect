@@ -72,9 +72,9 @@ public class Connect4 {
             int col = 0;
             int player = game[col][row]; //gets the first spot of that row
             col++;
-            while(temp < 4 || col<7)
+            while(col<7)
             {
-                if(game[row][col] == player)
+                if(game[row][col] == player && game[row][col] != 0)
                 {
                     temp++;
                 }
@@ -82,6 +82,10 @@ public class Connect4 {
                 {
                     temp = 0;
                     game[row][col] = player;
+                }
+                if(temp == 4)
+                {
+                    break;
                 }
                 col++;
             }
@@ -101,9 +105,9 @@ public class Connect4 {
             int row = 0;
             int player = game[row][col];
             row++;
-            while(temp < 4 || row<6)
+            while(row<6)
             {
-                if(game[row][col] == player)
+                if(game[row][col] == player && game[row][col] != 0)
                 {
                     temp++;
                 }
@@ -111,6 +115,10 @@ public class Connect4 {
                 {
                     temp = 0;
                     player = game[row][col];
+                }
+                if(temp == 4)
+                {
+                    break;
                 }
                 row++;
             }
@@ -124,10 +132,11 @@ public class Connect4 {
 
     protected int checkDiaganol()
     {
-        int rowT;
-        int colT;
-        int temp = 4;
-        int endpoint;
+        int rowT; //temporary row varaible used to rememeber where row is
+        int colT; //temporary column varaible used to remember where column
+        int temp = 0;
+        int endpoint; //how far you need to check
+        int Tendpoint;
         int player;
 
         for(int row=0; row<3; row++) //this loop handles all diaganol wins from top left to bottom right
@@ -139,27 +148,39 @@ public class Connect4 {
                 endpoint = 5;
             }
 
-            rowT = row;
+            //rowT = row; //saves rows value to a temp so we can use it to traverse the board and check for a win
             for (int col = 0; col < 4; col++, endpoint--)
             {
-                colT = col;
-                player = game[row][col];
-                while (temp < 4 || endpoint != 0)
+
+                if(col == 1)
                 {
-                    if (game[row++][col++] == player) {
-                        if(game[row][col] ==)
+                    endpoint = 6;
+                }
+
+                rowT = row;
+                colT = col; //saves column value to temp so we can use it to traverse the board and chekc for a win
+                player = game[rowT][colT];
+                Tendpoint = endpoint;
+                while (Tendpoint > 1)
+                {
+                    if ((game[++rowT][++colT] == player) && (game[rowT][colT] != 0))
+                    {
                         temp++;
-                    } else {
+                    } else
+                    {
                         temp = 0;
-                        player = game[row][col];
+                        player = game[rowT][colT];
                     }
+                    if(temp == 4)
+                    {
+                        break;
+                    }
+                    Tendpoint--;
                 }
                 if(temp == 4)
                 {
-                    return game[row][col];
+                    return game[rowT][colT];
                 }
-                col = colT;
-                row = rowT;
             }
         }
 
