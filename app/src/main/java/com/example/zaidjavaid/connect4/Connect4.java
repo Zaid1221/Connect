@@ -16,23 +16,32 @@ public class Connect4 {
         resetGame();
     }
 
-    public int play(int col)
+    public int play(int row, int col) //this just sets the play token to the spot in the array
     {
         int currentTurn = turn;
+        game[row][col] = turn;
+        if(turn == 1)
+        {
+            turn = 2;
+        }
+        else
+        {
+            turn = 1;
+        }
+        return currentTurn;
+    }
+
+    public int Test(int col)
+    {
         if(col >= 0 && col<Columns) //if the column is in play area
         {
-            if(Fill(col)==false) //if the column is full
+            if (Fill(col) == false) //if the column is full
             {
                 int row = Gravity(col);
-                game[row][col] = turn;
-                return currentTurn;
-            }
-            else
-            {
-                return 0;
+                return row;
             }
         }
-        return 0;
+        return -1;
     }
 
     public int whoWon()
@@ -138,6 +147,7 @@ public class Connect4 {
                 while (temp < 4 || endpoint != 0)
                 {
                     if (game[row++][col++] == player) {
+                        if(game[row][col] ==)
                         temp++;
                     } else {
                         temp = 0;
@@ -193,8 +203,12 @@ public class Connect4 {
     public boolean Fill(int col) //checks if the column is filled
     {
         int row =0;
-        while(game[row][col] == 0 || row<6)
+        while(row<=5)
         {
+            if(game[row][col]!=0)
+            {
+                row=6;
+            }
             row++;
         }
 
@@ -212,23 +226,38 @@ public class Connect4 {
     public int Gravity(int col) //handles the gravity of the chips so they fall to the bottom
     {
         int row = 0;
-        while(game[row][col] == 0 || row<6)
+        while(row<=5)
         {
-            row++;
+            if(game[row][col] == 0)
+            {
+                row++;
+            }
+            else
+            {
+                break;
+            }
         }
         return row-1;
     }
 
-    public boolean cannotPlay( ) {
+    public boolean cannotPlay( )
+    {
         boolean result = true;
-        for (int row = 0; row < SIDE; row++)
-            for( int col = 0; col < SIDE; col++ )
-                if ( game[row][col] == 0 )
+        for (int row = 0; row < Rows; row++)
+        {
+            for (int col = 0; col < Columns; col++)
+            {
+                if (game[row][col] == 0)
+                {
                     result = false;
+                }
+            }
+        }
         return result;
     }
 
-    public boolean isGameOver( ) {
+    public boolean isGameOver( )
+    {
         return cannotPlay( ) || ( whoWon( ) > 0 );
     }
 

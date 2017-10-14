@@ -51,19 +51,36 @@ public class MainActivity extends AppCompatActivity
         setContentView( gridLayout );
     }
 
-    public void update(int row, int col) //This does the actual visual setting of text in game board
+    public void update(int col) //This does the actual visual setting of text in game board
     {
-        int play = con.play(col);
-        if(play==1)
+        int row = con.Test(col); //gets the value of row, checks column is in play area ansd if column is full
+        if(row != -1)
         {
-            buttons[row][col].setText("X");
+            int play = con.play(row, col);
+            if (play == 1)
+            {
+                buttons[row][col].setText("X");
+            }
+            else if (play == 2)
+            {
+                buttons[row][col].setText("O");
+            }
+            if (con.isGameOver())
+            {
+                enableButtons(false);
+            }
         }
-        else if(play==2)
-        {
-            buttons[row][col].setText("O");
-        }
-        if(con.)
+    }
 
+    public void enableButtons( boolean enabled )
+    {
+        for( int row = 0; row < Connect4.Rows; row++ )
+        {
+            for (int col = 0; col < Connect4.Columns; col++)
+            {
+                buttons[row][col].setEnabled(enabled);
+            }
+        }
     }
 
     private class ButtonHandler implements View.OnClickListener
@@ -76,7 +93,7 @@ public class MainActivity extends AppCompatActivity
                 {
                     if (v == buttons[row][column])
                     {
-                        update(row,column);
+                        update(column);
                     }
                 }
             }
