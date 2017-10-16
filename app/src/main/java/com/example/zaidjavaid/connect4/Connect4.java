@@ -56,7 +56,7 @@ public class Connect4 {
         {
             return col;
         }
-        int diag = checkDiaganol();
+        int diag = checkDiaganol2();
         if(diag > 0)
         {
             return diag;
@@ -130,12 +130,62 @@ public class Connect4 {
         return 0;
     }
 
+   protected int checkDiaganol2() {
+       int row;
+       int col;
+       int player = 0;
+       int endpoint = 6;
+       int temp = 0;
+
+       //First check all diaganols from top left ot bottom right
+
+       for (row = 0, col = 0; col < 4; col++, endpoint--) //This just checks the first row diagnols
+       {
+           if (col == 1) // when hit the second column on first row keep the endpoint 6, length of diagnol check is still 6
+           {
+               endpoint = 6;
+           }
+           while (endpoint > 0) {
+               game[row][col] = player;
+               if (game[++row][++col] == player && game[row][col] != 0) {
+                   temp++;
+               } else {
+                   temp = 0;
+                   player = game[row][col];
+               }
+               if (temp == 4) {
+                   return player;
+               }
+           }
+       }
+
+       /*
+       for (endpoint = 5, col = 0, row = 1; row < 3; row++, endpoint--) //This checks the second, third row first column for diaganols
+       {
+           while (endpoint > 0) {
+               game[row][col] = player;
+               if (game[++row][++col] == player && game[row][col] != 0) {
+                   temp++;
+               } else {
+                   temp = 0;
+                   player = game[row][col];
+               }
+               if (temp == 4) {
+                   return player;
+               }
+           }
+       }
+       */
+       return 0;
+   }
+
+
     protected int checkDiaganol()
     {
         int rowT; //temporary row varaible used to rememeber where row is
         int colT; //temporary column varaible used to remember where column
         int temp = 0;
-        int endpoint; //how far you need to check
+        int endpoint; //how far you need to check down the diaganol lane
         int Tendpoint;
         int player;
 
@@ -145,10 +195,9 @@ public class Connect4 {
 
             if(row == 1)
             {
-                endpoint = 5;
+                endpoint = 6;
             }
 
-            //rowT = row; //saves rows value to a temp so we can use it to traverse the board and check for a win
             for (int col = 0; col < 4; col++, endpoint--)
             {
 
@@ -158,10 +207,10 @@ public class Connect4 {
                 }
 
                 rowT = row;
-                colT = col; //saves column value to temp so we can use it to traverse the board and chekc for a win
+                colT = col;
                 player = game[rowT][colT];
                 Tendpoint = endpoint;
-                while (Tendpoint > 1)
+                while (Tendpoint > 0)
                 {
                     if ((game[++rowT][++colT] == player) && (game[rowT][colT] != 0))
                     {

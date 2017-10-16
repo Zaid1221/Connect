@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity
         // Get width of the screen
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
-        int w = size.y / Connect4.Rows;
+        int w = size.x / Connect4.Rows;
         int v = size.x / Connect4.Columns;
 
         // Create the layout manager as a GridLayout
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity
                 buttons[row][col] = new Button(this);
                 buttons[row][col].setTextSize( ( int ) ( v * .2 ) );
                 buttons[row][col].setOnClickListener( bh );
-                gridLayout.addView(buttons[row][col],w,v);
+                gridLayout.addView(buttons[row][col],v,w);
             }
         }
 
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity
             }
             if (con.isGameOver())
             {
-                enableButtons(false);
+              enableButtons(false);
             }
         }
     }
