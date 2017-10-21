@@ -152,4 +152,20 @@ public class Connect4 {
         }
         turn = 1;
     }
+
+    public String result()
+    {
+        if (checkWin(game) > 0)
+        {
+            return "Player " + checkWin(game) + " won";
+        }
+        else if (cannotPlay())
+        {
+            return "Tie Game";
+        }
+        else
+        {
+            return "PLAY!!";
+        }
+    }
 }

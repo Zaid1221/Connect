@@ -1,16 +1,20 @@
 package com.example.zaidjavaid.connect4;
 
+import android.graphics.Color;
 import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
 {
     private Connect4 con;
     private Button [][] buttons;
+    private TextView status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -31,7 +35,7 @@ public class MainActivity extends AppCompatActivity
         // Create the layout manager as a GridLayout
         GridLayout gridLayout = new GridLayout(this);
         gridLayout.setColumnCount(Connect4.Columns);
-        gridLayout.setRowCount(Connect4.Rows);
+        gridLayout.setRowCount(Connect4.Rows + 1);
 
         // Create the buttons and add them to gridLayout
         buttons = new Button[Connect4.Rows][Connect4.Columns];
@@ -46,6 +50,25 @@ public class MainActivity extends AppCompatActivity
                 gridLayout.addView(buttons[row][col],v,w);
             }
         }
+
+
+        //set up layout parameters of 7th row of layout for status bar
+        status = new TextView(this);
+        GridLayout.Spec rowSpec = GridLayout.spec(Connect4.Rows, 1);
+        GridLayout.Spec columnSpec = GridLayout.spec(0, Connect4.Columns);
+        GridLayout.LayoutParams lpStatus = new GridLayout.LayoutParams(rowSpec, columnSpec);
+        status.setLayoutParams(lpStatus);
+
+
+        //set status height and width
+        status.setWidth(Connect4.Columns * w);
+        status.setHeight(v);
+        status.setGravity(Gravity.CENTER);
+        status.setBackgroundColor(Color.GREEN);
+        status.setTextSize((int) (w*.15));
+        gridLayout.addView(status);
+
+
 
         // Set gridLayout as the View of this Activity
         setContentView( gridLayout );
@@ -67,7 +90,9 @@ public class MainActivity extends AppCompatActivity
             }
             if (con.isGameOver())
             {
-              enableButtons(false);
+                status.setBackgroundColor(Color.RED);
+                enableButtons(false);
+                status.setText(con.result());
             }
         }
     }
