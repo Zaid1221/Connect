@@ -1,7 +1,9 @@
 package com.example.zaidjavaid.connect4;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity
         status.setGravity(Gravity.CENTER);
         status.setBackgroundColor(Color.GREEN);
         status.setTextSize((int) (w*.15));
+        status.setText(con.result());
         gridLayout.addView(status);
 
 
@@ -93,6 +96,7 @@ public class MainActivity extends AppCompatActivity
                 status.setBackgroundColor(Color.RED);
                 enableButtons(false);
                 status.setText(con.result());
+                showNewGameDialog();
             }
         }
     }
@@ -108,6 +112,29 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public void resetButtons()
+    {
+        for(int row=0; row < Connect4.Rows; row++)
+        {
+            for(int col=0; col < Connect4.Columns; col++)
+            {
+                buttons[row][col].setText("");
+            }
+        }
+    }
+
+    public void showNewGameDialog()
+    {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("This is fun");
+        alert.setMessage("Play Again?");
+        PlayDialog playAgain = new PlayDialog();
+        alert.setPositiveButton("YES", playAgain);
+        alert.setNegativeButton("NO", playAgain);
+        alert.show();
+    }
+
+
     private class ButtonHandler implements View.OnClickListener
     {
         public void onClick( View v )
@@ -121,6 +148,25 @@ public class MainActivity extends AppCompatActivity
                         update(column);
                     }
                 }
+            }
+        }
+    }
+
+    private class PlayDialog implements DialogInterface.OnClickListener
+    {
+        public void onClick(DialogInterface dialog, int id)
+        {
+            if(id == -1)
+            {
+                con.resetGame();
+                enableButtons(true);
+                resetButtons();
+                status.setBackgroundColor((Color.GREEN));
+                status.setText(con.result());
+            }
+            else if(id == -2)
+            {
+                MainActivity.this.finish();
             }
         }
     }
