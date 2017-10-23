@@ -21,7 +21,7 @@ public class PlayArea extends GridLayout
     private Button[][] buttons;
     private TextView status;
 
-    public PlayArea(Context context, int newrows, int newcolumns, OnClickListener listener)
+    public PlayArea(Context context, int width, int newrows, int newcolumns, OnClickListener listener)
     {
         super(context);
         rows = newrows;
@@ -40,7 +40,7 @@ public class PlayArea extends GridLayout
                 buttons[row][col] = new Button(context);
                 buttons[row][col].setTextSize((int)(width * .2));
                 buttons[row][col].setOnClickListener(listener);
-                addView(buttons[row][col], rows, columns);
+                addView(buttons[row][col], width, width);
             }
         }
 
@@ -52,11 +52,11 @@ public class PlayArea extends GridLayout
         status.setLayoutParams(lpStatus);
 
         //set up status bar
-        status.setWidth(rows * columns);
-        status.setHeight(columns);   //***************************if does not look right look into this
+        status.setWidth(rows * width);
+        status.setHeight(width);
         status.setGravity(Gravity.CENTER);
         status.setBackgroundColor(Color.GREEN);
-        status.setTextSize((int)(rows * .15));
+        status.setTextSize((int)(width * .15));
         addView(status);
     }
 

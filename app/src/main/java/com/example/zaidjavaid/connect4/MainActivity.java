@@ -26,11 +26,11 @@ public class MainActivity extends AppCompatActivity
         // Get width of the screen
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
-        int w = size.x / Connect4.Rows;
-        int v = size.x / Connect4.Columns;
+        int w = size.x / Connect4.Columns;
+        //int v = size.x / Connect4.Columns;
 
         ButtonHandler bh = new ButtonHandler( );
-        area = new PlayArea(this, w, v, bh);
+        area = new PlayArea(this, w, Connect4.Rows, Connect4.Columns, bh);
         area.setStatusText(con.result());
         // Set gridLayout as the View of this Activity
         setContentView(area);
